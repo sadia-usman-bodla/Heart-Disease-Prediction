@@ -1,5 +1,7 @@
+streamlit
 flask
 gunicorn
 joblib
 numpy
 scikit-learn
+
