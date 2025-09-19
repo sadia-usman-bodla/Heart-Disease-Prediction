@@ -1,4 +1,3 @@
-# Heart-Disease-Prediction
 # Heart Disease Prediction using Machine Learning
 
 This project is a **Heart Disease Prediction Web App** built with **Flask** (Backend) and **Bootstrap** (Frontend).  
