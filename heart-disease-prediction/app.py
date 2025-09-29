@@ -85,4 +85,4 @@ if predict_button:
 
     except Exception as e:
         st.exception(f"Error during prediction: {e}")
-change kr do
+
