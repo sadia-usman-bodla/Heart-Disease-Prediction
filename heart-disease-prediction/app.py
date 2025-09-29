@@ -1,22 +1,13 @@
 # streamlit_app.py
 import streamlit as st
 import numpy as np
-import pickle
-import os
-
-# --------------- base dir for model files ----------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+import joblib
 
 # --------------- load model & scaler once ----------------
 @st.cache_resource
 def load_artifacts():
-    model_path = os.path.join(BASE_DIR, "model.pkl")
-    scaler_path = os.path.join(BASE_DIR, "scaler.pkl")
-
-    with open(model_path, "rb") as f:
-        model = pickle.load(f)
-    with open(scaler_path, "rb") as f:
-        scaler = pickle.load(f)
+    model = joblib.load("model.pkl")
+    scaler = joblib.load("scaler.pkl")
     return model, scaler
 
 model, scaler = load_artifacts()
@@ -27,6 +18,7 @@ st.title("❤️ Heart Disease Prediction")
 st.write("Form bhar kar submit karein — model wahi features expect karta hai jo aapke Flask app me the.")
 
 # --------------- INPUT FIELDS ---------------
+# **Order must match the order you used in Flask**:
 # [age, anaemia, cpk, diabetes, ef, hbp, platelets, sc, ss, sex, smoking, time]
 
 col1, col2, col3 = st.columns(3)
@@ -77,10 +69,11 @@ if predict_button:
         X_scaled = scaler.transform(X)
         pred = model.predict(X_scaled)[0]
 
-        # probability if available
+        # try to get probability if available
         prob_text = ""
         if hasattr(model, "predict_proba"):
             prob = model.predict_proba(X_scaled)[0]
+            # assuming positive class at index 1
             prob_pos = prob[1] if len(prob) > 1 else prob[0]
             prob_text = f" — Probability: {prob_pos*100:.1f}%"
 
@@ -92,3 +85,4 @@ if predict_button:
 
     except Exception as e:
         st.exception(f"Error during prediction: {e}")
+change kr do
