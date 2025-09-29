@@ -1,13 +1,15 @@
 # streamlit_app.py
 import streamlit as st
 import numpy as np
-import joblib
+import pickle
 
 # --------------- load model & scaler once ----------------
 @st.cache_resource
 def load_artifacts():
-    model = joblib.load("model.pkl")
-    scaler = joblib.load("scaler.pkl")
+    with open("model.pkl", "rb") as f:
+        model = pickle.load(f)
+    with open("scaler.pkl", "rb") as f:
+        scaler = pickle.load(f)
     return model, scaler
 
 model, scaler = load_artifacts()
